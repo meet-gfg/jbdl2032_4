@@ -1,15 +1,34 @@
 package com.gfg.imdbdemo;
 
+import com.gfg.imdbdemo.domain.Movie;
+import com.gfg.imdbdemo.repositories.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ImdbdemoApplication {
+public class ImdbdemoApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ImdbdemoApplication.class, args);
 	}
 
+	@Autowired
+	MovieRepository movieRepository;
+
+	@Override
+	public void run(String... args) throws Exception {
+		/*Movie movie=movieRepository.findByTitle("MIB");
+		System.out.println(movie);
+		 movie=movieRepository.findByTitle("MIB");
+		System.out.println(movie);
+
+		movie=movieRepository.findByNameAndRating("MIB",0.0);
+
+		System.out.println(movie);*/
+
+	}
 }
 
 

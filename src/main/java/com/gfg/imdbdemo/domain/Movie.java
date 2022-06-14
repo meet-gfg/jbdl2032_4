@@ -1,25 +1,26 @@
 package com.gfg.imdbdemo.domain;
 
 import com.gfg.imdbdemo.service.response.MovieResponse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Data
+
 @Entity
 @Table(name="movie_table")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
+@Getter
+@Setter
 public class Movie {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long movieId;
+    private Long movieId; // mysql id -> movie_id
 
     private String title;
 
@@ -28,7 +29,19 @@ public class Movie {
 
     private Double rating;
 
+   /**
+    * if 2nd approch to find avg rating, store this else avoid.
+    *
+    -> private Double noOfReviews;
+    */
+
     private String adminName;
+
+   /*  /// one movie to many reviews
+    @OneToMany
+    List<Review> reviewList;
+    */
+
 
 
     public MovieResponse toMovieResponse(){
