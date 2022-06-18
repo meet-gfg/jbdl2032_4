@@ -1,7 +1,9 @@
 package com.gfg.imdbdemo;
 
 import com.gfg.imdbdemo.domain.Movie;
+import com.gfg.imdbdemo.domain.MyUser;
 import com.gfg.imdbdemo.repositories.MovieRepository;
+import com.gfg.imdbdemo.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,16 +19,13 @@ public class ImdbdemoApplication implements CommandLineRunner {
 	@Autowired
 	MovieRepository movieRepository;
 
+	@Autowired
+	MyUserService service;
+
 	@Override
 	public void run(String... args) throws Exception {
-		/*Movie movie=movieRepository.findByTitle("MIB");
-		System.out.println(movie);
-		 movie=movieRepository.findByTitle("MIB");
-		System.out.println(movie);
 
-		movie=movieRepository.findByNameAndRating("MIB",0.0);
-
-		System.out.println(movie);*/
+		service.addUser(new MyUser("john","123","admin"));
 
 	}
 }
