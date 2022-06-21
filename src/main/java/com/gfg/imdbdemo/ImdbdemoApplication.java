@@ -25,8 +25,6 @@ public class ImdbdemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		service.addUser(new MyUser("john","123","admin"));
-
 	}
 }
 

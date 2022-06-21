@@ -1,12 +1,15 @@
 package com.gfg.imdbdemo.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 
 /**
@@ -18,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *
  *  To provide the configuration one needs to create a bean for FilterChain, PasswordEncoder, UserDetailsService and AuthorityProvider
  *
+ * BLOG: https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
  * */
 
 /***
@@ -29,13 +33,66 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *  check Authentication class for different types of authentication
  * */
 
+
+
 @Configuration
 public class SecurityConfiguration {
+
+   /* @Value("${admin.authority}")
+    private String ADMIN_AUTH;*/
+
+    private final String ADMIN_AUTH="admin";
+    private final String USER_AUTH="user";
 
     @Bean
     public PasswordEncoder getMyPasswordEncoder(){
         return  NoOpPasswordEncoder.getInstance();
     }
+
+
+    /**
+     *  Domain will be common for all the type of the users.  api-> localhost:8080/
+     *  1. we need to add filter/matchers to map APIs with the authorities
+     *  by providing a custom bean of SecurityFilterChain
+     *  ex:
+     *      /admin/greet -> authority -> ADMIN
+     *      /admin/movie/add -> authority -> ADMIN
+     *      /admin/movie/get -> authority -> ADMIN
+     *      /movie/add -> authority -> ADMIN ( no restriction on  name)
+     *
+     *      /user/review/add -> authority -> USER
+     *      /user/review/get -> authority -> USER
+     * */
+
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+/*
+*CSRF -> Cross-Site request forgery
+* XSS -> Cross-site Script
+*
+*
+* */
+
+        /**
+         * antMatchers will accept the path and regex after it or the direct path for single api
+         *Ex: localhost:8080/main/greet
+         * following antmatchers will work
+         *  /main/greet**
+         *  /main/**
+         *  **greet**
+         *
+         * */
+        httpSecurity
+                .csrf().disable() //***csrf needs to be disabled if directly hitting POST api from unknown sources
+                .authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority(ADMIN_AUTH)
+                .antMatchers("/user/**").hasAuthority(USER_AUTH)
+                .antMatchers("/signup").permitAll()
+                .and().formLogin();
+        return httpSecurity.build();
+    }
+
+
 
 }
 

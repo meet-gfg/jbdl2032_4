@@ -5,6 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+
+/**
+ * if mysql fails with safe update while deleting and updating, run following command
+ *
+ * SET SQL_SAFE_UPDATES=0
+ *
+ * */
+
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Long> {
 
