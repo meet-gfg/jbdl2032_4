@@ -86,9 +86,11 @@ public class SecurityConfiguration {
                 .csrf().disable() //***csrf needs to be disabled if directly hitting POST api from unknown sources
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority(ADMIN_AUTH)
-                .antMatchers("/user/**").hasAuthority(USER_AUTH)
+                .antMatchers("/user/**").hasAnyAuthority("ROLE_USER","user")
                 .antMatchers("/signup").permitAll()
-                .and().formLogin();
+                .antMatchers("/**").permitAll()
+                .and().formLogin()
+                .and().oauth2Login();
         return httpSecurity.build();
     }
 
@@ -108,3 +110,23 @@ For all the steps here, the default definition already exists in Spring Security
 *
 *
 * */
+/**
+ * Revise oAuth 2.0 -> logging fb,twiiter,github
+ *
+ * ---Authentication start -----
+ * Step1:  register an app with oauth providers
+ * Step2:  get client id and secret from the oauth providers
+ * Step3:  On login click, app should redirect to the 3rd party auth provider server.
+ * Step4:  on success, oauth provider return scope items( user details, emails, username, profilepic, birthdate)
+ * Step5:  either store the user details with us in DB( optional )
+ * --- Authentication over -----
+ *
+ * ---Authorization start-----
+ * Step6: read a roles from the attributes provided by oatuh or assign a default role.
+ * Step7: authorize the apis based on roles
+ * --Authorization over------
+ *
+ * Regular flow.
+ *
+ * **/
+

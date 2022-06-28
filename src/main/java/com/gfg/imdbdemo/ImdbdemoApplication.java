@@ -1,5 +1,6 @@
 package com.gfg.imdbdemo;
 
+import com.gfg.imdbdemo.domain.Genre;
 import com.gfg.imdbdemo.domain.Movie;
 import com.gfg.imdbdemo.domain.MyUser;
 import com.gfg.imdbdemo.repositories.MovieRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @SpringBootApplication
 public class ImdbdemoApplication implements CommandLineRunner {
@@ -22,9 +24,11 @@ public class ImdbdemoApplication implements CommandLineRunner {
 	@Autowired
 	MyUserService service;
 
+	@Autowired
+	RedisTemplate<String, Object> redisTemplate;
+
 	@Override
 	public void run(String... args) throws Exception {
-
 	}
 }
 
@@ -57,3 +61,32 @@ public class ImdbdemoApplication implements CommandLineRunner {
  *       ]
  *     }
  * */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

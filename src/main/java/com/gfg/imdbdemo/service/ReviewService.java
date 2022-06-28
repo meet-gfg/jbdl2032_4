@@ -34,9 +34,22 @@ public class ReviewService {
             return null; // or return blank new Review();
         }
         */
-        Review review = reviewRepository.findById(reviewId).orElse(null);
-        System.out.println(review.toString());
 
+        /**
+         * While fetching, first check with redis, if found return -> cache hit
+         * if not, fetch from the Db and return  -> cache miss
+         *  --add directly(Avoid) or add logically ( VERY IMPORTANT).
+         *
+         *
+         * */
+        Review review = reviewRepository.findById(reviewId).orElse(null);
+
+        //example logic to add data in cache
+        /**
+         *
+         * if(!review.getMovie().getReleaseDate().isBefore(2 months))
+            add in cache
+         */
 
 
         return review;

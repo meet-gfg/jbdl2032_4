@@ -6,6 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
+
 @RestController
 public class SecurityDemoController {
 
@@ -45,6 +54,22 @@ public class SecurityDemoController {
             return false;
         }
     }
+
+    @GetMapping(value="/user")
+    public Object getUserfromOauth2(){
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    @PostMapping(value="/testFile")
+    public String getFileData(HttpServletRequest request) throws ServletException, IOException, IOException, ServletException {
+        Part p=request.getPart("myfile");
+        InputStream inputStream=p.getInputStream();
+        BufferedReader reader=new BufferedReader(new InputStreamReader(inputStream));
+        return reader.lines().collect(Collectors.joining());
+
+    }
+
+
 }
 
 /**

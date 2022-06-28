@@ -4,6 +4,7 @@ import com.gfg.imdbdemo.service.response.MovieResponse;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -15,7 +16,7 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-public class Movie {
+public class Movie implements Serializable {
 
     @Id
     @Column
